@@ -54,11 +54,15 @@ for i in range(num_iterations):
 
     Theta_Loss = Theta_sum - sum(Simu_Theta)
     Theta_Losses.append(Theta_Loss)
+# -------------------------learning setting-------------------------
 
-print(Simu_Theta)
-print(True_theta)
-print(Simu_Theta - True_theta)
+# -------------------------matrix setting-------------------------
+matrix_theta = np.linalg.pinv(np.transpose(X) @ X) @ np.transpose(X) @ Y
+print(matrix_theta)
+# -------------------------matrix setting-------------------------
 
+
+# -------------------------plot setting-------------------------
 # 设置matplotlib支持中文显示
 plt.rcParams['font.sans-serif'] = ['SimHei']  # 指定默认字体
 plt.rcParams['axes.unicode_minus'] = False  # 解决保存图像时负号'-'显示为方块的问题
@@ -82,4 +86,4 @@ ax2.grid()
 
 plt.tight_layout()  # 调整子图之间的间距
 plt.show()
-# -------------------------learning setting-------------------------
+# -------------------------plot setting-------------------------
