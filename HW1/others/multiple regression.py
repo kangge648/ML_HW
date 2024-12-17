@@ -2,9 +2,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
-
 np.random.seed(0)
-
 
 # -------------------------data setting-------------------------
 Samples = 100
