@@ -52,6 +52,11 @@ print(theta)
 # f = theta[0,0] + theta[1,0] * x
 
 
+# 归一化后得到的参数theta不能直接应用于原数据
+# 给定一个新数据x，得到的对应输出的步骤：
+# 1. newx = (x-mean(X)) / std(X)
+# 2. y = theta[0, 0] + theta[0, 1] * newx
+# 3. truey = y * std(Y) + mean (Y)
 plt.figure(figsize=(12, 8))
 plt.xlabel('Population')
 plt.ylabel('Profit')
