@@ -1,13 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
 
 # 读入数据
 path = 'ex1data1.txt'
 data = pd.read_csv(path, header=None, names=['Population', 'Profit'])
-data.head()
-data.describe()
+print(data.head())
+print(data.describe())
 
 data.plot(kind='scatter', x='Population', y='Profit', figsize=(12,8))
 plt.show()
@@ -15,6 +14,8 @@ plt.show()
 # 新增截距项
 data.insert(0, 'Ones', 1)
 data.head()
+print(data.head())
+print(data.describe())
 
 cols = data.shape[1]
 X = data.iloc[:, 0:cols-1]
