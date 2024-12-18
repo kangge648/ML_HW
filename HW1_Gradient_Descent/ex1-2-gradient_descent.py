@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 def computeCost(X, Y, theta):
-    inner = np.power((X * theta.T) - Y, 2)
+    inner = np.power((X @ theta.T) - Y, 2)
     return np.sum(inner) / (2 * len(X))
 
 def gradient_descent(X, Y, theta, alpha, iteration, losses):
@@ -28,7 +28,7 @@ def theta_transform(theta, means, stds):
     return theta.reshape(1, -1)
 
 # 读入数据
-path = 'ex1data2.txt'
+path = 'HW1_Gradient_Descent/ex1data2.txt'
 data = pd.read_csv(path, header=None, names=['Size', 'Number', 'Price'])
 # print(data.head())
 # print(data.describe())
