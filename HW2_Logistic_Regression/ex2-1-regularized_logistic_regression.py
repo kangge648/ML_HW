@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-path = 'ex2data2.txt'
+path = 'HW2_Logistic_Regression/ex2data2.txt'
 df = pd.read_csv(path, header=None, names=['Test1', 'Test2', 'Accepted'])
 df.head()
 
@@ -84,7 +84,7 @@ def find_theta(power, l):
     l: int
         lambda constant for regularization term
     '''
-    path = 'ex2data2.txt'
+    path = 'HW2_Logistic_Regression/ex2data2.txt'
     df = pd.read_csv(path, header=None, names=['Test1', 'Test2', 'Accepted'])
     df.head()
 
