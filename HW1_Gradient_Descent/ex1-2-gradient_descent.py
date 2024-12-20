@@ -1,5 +1,4 @@
-# Linear regression by the normal equation (multiple variables)
-# Normal equation: theta = (X.T * X)^(-1) * X.T * Y
+# Linear regression by the gradient descent (multiple variables)
 
 import numpy as np
 import matplotlib.pyplot as plt
