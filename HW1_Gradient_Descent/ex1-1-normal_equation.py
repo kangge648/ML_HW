@@ -1,21 +1,36 @@
+# Linear regression by the normal equation (single variable)
+# Normal equation: theta = (X.T * X)^(-1) * X.T * Y
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
+# compute the loss
+# input (dimensions): X is m, 2; Y is m, 1; theta is 2, 1
+# output: a scalar
+def computeCost(X, Y, theta):
+    inner = np.power((X @ theta) - Y, 2)
+    return np.sum(inner) / (2 * len(X))
+
+# normal equation
+# input (dimensions):  X is m, 2; Y is m, 1; theta is 2, 1 
+# output (dimensions): theta is 2, 1
+def normalEqn(X, Y):
+    theta = np.linalg.inv(X.T @ X) @ X.T @ Y
+    return theta
+
 # 读入数据
-path = 'ex1data1.txt'
+path = 'HW1_Gradient_Descent/ex1data1.txt'
 data = pd.read_csv(path, header=None, names=['Population', 'Profit'])
-print(data.head())
-print(data.describe())
+# print(data.head())
+# print(data.describe())
 
 data.plot(kind='scatter', x='Population', y='Profit', figsize=(12,8))
 plt.show()
 
 # 新增截距项
 data.insert(0, 'Ones', 1)
-data.head()
-print(data.head())
-print(data.describe())
 
 cols = data.shape[1]
 X = data.iloc[:, 0:cols-1]
@@ -24,22 +39,9 @@ Y = data.iloc[:, cols-1:cols]
 X = np.matrix(X.values)
 Y = np.matrix(Y.values)
 theta = np.matrix(np.array([0, 0]))
-
-
-def computeCost(X, Y, theta):
-    inner = np.power((X * theta.T) - Y, 2)
-    return np.sum(inner) / (2 * len(X))
-
-def normalEqn(X, Y):
-    theta = np.linalg.inv(X.T@X)@X.T@Y
-    return theta
-
 theta = normalEqn(X, Y)
-# 梯度下降的theta为 matrix([[-3.24140214,  1.1272942 ]])
 print(theta)
-
-# 梯度下降的cost为 4.515955503078912
-computeCost(X, Y, theta.reshape(1, -1))
+computeCost(X, Y, theta)
 
 # 画出拟合图像
 x = np.linspace(data.Population.min(), data.Population.max(), 100)

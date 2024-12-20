@@ -1,15 +1,37 @@
+# Linear regression by the gradient descent (single variable)
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+# compute the loss
+# input (dimensions): X is m, 2; Y is m, 1; theta is 2, 1
+# output: a scalar
+def computeCost(X, Y, theta):
+    inner = np.power((X @ theta) - Y, 2)
+    return np.sum(inner) / (2 * len(X))
+
+# gradient desent
+# input (dimensions): X is m, 2; Y is m, 1; theta is 2, 1; alpha and iteration are scalars
+# output: theta is 2, 1; lossses
+def gradient_descent(X, Y, theta, alpha, iteration):
+    losses = []
+    for i in range(iteration):
+        loss = computeCost(X, Y, theta)
+        losses.append(loss)
+        gradient = 1/len(X) * ((X @ theta) - Y).T @ X
+        theta -= alpha * gradient.T
+
+    return theta, losses
+
 # 读入数据
-path = 'ex1data1.txt'
+path = 'HW1_Gradient_Descent/ex1data1.txt'
 data = pd.read_csv(path, header=None, names=['Population', 'Profit'])
 # print(data.head())
 # print(data.describe())
 
 data.plot(kind='scatter', x='Population', y='Profit', figsize=(12,8))
-# plt.show()
+plt.show()
 
 # 新增截距项
 data.insert(0, 'Ones', 1)
@@ -18,38 +40,23 @@ data.head()
 cols = data.shape[1]
 X = data.iloc[:, 1:cols-1]
 # X = (X - X.mean()) / X.std()
-X_old = X
 X.insert(0, 'Ones', 1)
 Y = data.iloc[:, cols-1:cols]
 # Y = (Y - Y.mean()) / Y.std()
-
 X = np.matrix(X.values)
-Y = np.array(Y.values)
+Y = np.matrix(Y.values)
 
-def gradient_descent(X, Y, theta, alpha, iteration):
-    losses = []
-    for i in range(iteration):
-        Y_pred = X @ theta.T
-        loss = 1/2/len(X) * np.sum(np.power(Y_pred - Y, 2))
-        losses.append(loss)
-        gradient_0 = -1/len(X) * np.sum(Y - Y_pred)
-        gradient_1 = -1/len(X) * np.sum((Y - Y_pred).T * X[:, 1])
-        theta[0, 0] -= alpha * gradient_0
-        theta[0, 1] -= alpha * gradient_1
-
-    return theta, losses
 
 alpha = 0.01
 iteration = 1000
 losses = []
-theta = np.matrix(np.array([0.0, 0.0]))
+theta = np.array([[0.0], [0.0]])
 theta, losses = gradient_descent(X, Y, theta, alpha, iteration)
-# 梯度下降的theta为 matrix([[-3.24140214,  1.1272942 ]])
 print(theta)
 
 # 画出拟合图像
-# x = np.linspace(data.Population.min(), data.Population.max(), 100)
-# f = theta[0,0] + theta[1,0] * x
+x = np.linspace(data.Population.min(), data.Population.max(), 100)
+f = theta[0,0] + theta[1,0] * x
 
 
 # 归一化后得到的参数theta不能直接应用于原数据
@@ -62,7 +69,7 @@ plt.xlabel('Population')
 plt.ylabel('Profit')
 x_vals = np.array(data['Population']).reshape(-1, 1)  # 确保x_vals是二维的
 x_vals_with_intercept = np.hstack([np.ones((x_vals.shape[0], 1)), x_vals])  # 添加截距项
-predictions = x_vals_with_intercept @ theta.T  # 计算预测值
+predictions = x_vals_with_intercept @ theta  # 计算预测值
 plt.plot(data['Population'], predictions, label='Prediction', color='red')
 plt.scatter(data['Population'], data['Profit'], label='Training Data')
 plt.legend(loc='best')
